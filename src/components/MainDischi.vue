@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <MusicCard
-        v-for="(item, i) in albumList"
-        :key="i"
-        :albumObject="item"
-    />
-  </div>
+    <main>
+        <div id="card_container">
+            <MusicCard
+                v-for="(item, i) in albumList"
+                :key="i"
+                :albumObject="item"
+            />
+        </div>
+    </main>
 </template>
 
 <script>
@@ -17,26 +19,25 @@ export default {
     components: {
         MusicCard
     },
-    data () {
+    data() {
         return {
             apiUrl: "https://flynn.boolean.careers/exercises/api/array/music",
             albumList: []
         }
     },
-    created () {
+    created() {
         this.getAlbum();
     },
     methods: {
-        getAlbum () {
+        getAlbum() {
             axios
-            .get(this.apiUrl)
-            .then((result) =>{
-                this.albumList = result.data.response;
-                console.log(result);
-            })
-            .catch((error) => {
-                console.log("Errore", error);
-            })
+                .get(this.apiUrl)
+                .then((result) => {
+                    this.albumList = result.data.response;
+                })
+                .catch((error) => {
+                    console.log("Errore", error);
+                })
         }
     }
 }
@@ -44,5 +45,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+main {
+    background-color: #1e2d3b;
+    padding: 30px 200px;
+    height: calc(100vh - 50px);
 
+    #card_container {
+        display: flex;
+        flex-wrap: wrap;
+        height: calc(100vh - 100px);
+        overflow: auto;
+    }
+}
 </style>
