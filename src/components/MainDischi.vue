@@ -1,11 +1,9 @@
 <template>
     <main>
+        <SearchGenre @search="changeSelectedGenre"/>
+
         <div id="card_container">
-            <MusicCard
-                v-for="(item, i) in albumList"
-                :key="i"
-                :albumObject="item"
-            />
+            <MusicCard v-for="(item, i) in filteredAlbum" :key="i" :albumObject="item" />
         </div>
     </main>
 </template>
@@ -13,16 +11,18 @@
 <script>
 import MusicCard from './MusicCard.vue'
 import axios from "axios"
+import SearchGenre from "./SearchGenre.vue"
 
 export default {
     name: "MainDischi",
     components: {
-        MusicCard
+        MusicCard, SearchGenre
     },
     data() {
         return {
             apiUrl: "https://flynn.boolean.careers/exercises/api/array/music",
-            albumList: []
+            albumList: [],
+            selectGenre: "all"
         }
     },
     created() {
@@ -38,8 +38,22 @@ export default {
                 .catch((error) => {
                     console.log("Errore", error);
                 })
+        },
+        changeSelectedGenre(key) {
+            this.selectGenre=key;
         }
-    }
+    },
+    computed: {
+        filteredAlbum() {
+            if (this.selectGenre === "all") {
+                return this.albumList;
+            } else {
+                return this.albumList.filter(item => {
+                    return item.genre.toLowerCase().includes(this.selectGenre);
+                })
+            }
+        }
+    },
 }
 </script>
 

@@ -24,6 +24,7 @@ export default {
         margin: 10px;
         padding: 15px 10px;
         text-align: center;
+        height: 300px;
 
         img {
             width: 150px;
